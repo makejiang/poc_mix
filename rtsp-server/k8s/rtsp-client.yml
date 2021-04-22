@@ -1,0 +1,26 @@
+# deployment nats
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: rtsp-c
+  labels:
+    app: rtsp-c
+spec:
+  selector:
+    matchLabels:
+      app: rtsp-c
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rtsp-c
+    spec:
+      containers:
+      - name: rtsp-test
+        image: amr-registry.caas.intel.com/ngs-5g-dcc/gstreamer-dev:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: SERVER_URL
+            value: rtsp://10.54.48.212:8554/test
+        command: ["/bin/bash"]
+        args: ["/test/client-1.sh"]
